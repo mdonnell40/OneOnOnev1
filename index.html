@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tom 1:1 Cheat Sheet</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <meta name="theme-color" content="#f5f7fa" />
+  <style>
+    :root {
+      --bg: #f5f7fa;
+      --surface: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --border: #d1d5db;
+      --accent: #1d4ed8;
+      --must: #b91c1c;
+      --nice: #92400e;
+      --time: #065f46;
+      --radius: 12px;
+      --shadow: 0 2px 10px rgba(15, 23, 42, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.45;
+      font-size: 18px;
+    }
+
+    .container {
+      width: min(980px, 100% - 2rem);
+      margin: 1rem auto 2rem;
+    }
+
+    .sticky-header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: var(--bg);
+      padding: 0.75rem 0 0.5rem;
+      border-bottom: 1px solid rgba(209, 213, 219, 0.8);
+      backdrop-filter: blur(3px);
+    }
+
+    h1 { margin: 0; font-size: 1.9rem; }
+    .subtitle { margin: 0.25rem 0 0.75rem; color: var(--muted); font-size: 1rem; }
+
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 0.9rem;
+      margin-bottom: 0.9rem;
+    }
+
+    .controls, .summary {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .timer-line {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: center;
+      margin-bottom: 0.6rem;
+    }
+
+    .elapsed { font-size: 1.25rem; font-weight: 650; color: var(--time); }
+
+    .progress-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-top: 0.4rem;
+    }
+
+    progress { width: 180px; height: 14px; }
+
+    button {
+      min-height: 42px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.5rem 0.75rem;
+      background: white;
+      color: var(--text);
+      font-size: 0.95rem;
+      cursor: pointer;
+    }
+    button:hover { border-color: #9ca3af; }
+
+    .opener { font-size: 1.03rem; font-weight: 530; border-left: 5px solid var(--accent); }
+
+    details {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 0.9rem;
+      overflow: hidden;
+    }
+
+    summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 0.9rem 1rem;
+      font-weight: 650;
+      font-size: 1.1rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    summary::-webkit-details-marker { display: none; }
+    .section-body { padding: 0.8rem 1rem 1rem; }
+    .next-point { margin-bottom: 0.8rem; color: var(--accent); font-weight: 600; }
+
+    .item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.65rem;
+      padding: 0.45rem 0.35rem;
+      border-radius: 8px;
+    }
+    .item:focus-within { outline: 2px solid #93c5fd; outline-offset: 1px; }
+
+    input[type="checkbox"] { width: 1.35rem; height: 1.35rem; margin-top: 0.15rem; }
+
+    .item label { flex: 1; cursor: pointer; }
+
+    .tag {
+      font-size: 0.78rem;
+      padding: 0.15rem 0.45rem;
+      border-radius: 999px;
+      border: 1px solid;
+      white-space: nowrap;
+      margin-top: 0.08rem;
+    }
+    .must { color: var(--must); border-color: #fecaca; background: #fef2f2; }
+    .nice { color: var(--nice); border-color: #fcd34d; background: #fffbeb; }
+    .time { color: #0f766e; border-color: #99f6e4; background: #f0fdfa; }
+
+    textarea {
+      width: 100%;
+      min-height: 88px;
+      margin-top: 0.65rem;
+      font: inherit;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.55rem;
+      resize: vertical;
+      background: #fcfdff;
+    }
+
+    @media (max-width: 820px) {
+      body { font-size: 16px; }
+      .container { width: min(980px, 100% - 1rem); }
+      .sticky-header { padding-top: 0.45rem; }
+      h1 { font-size: 1.45rem; }
+      .panel, summary, .section-body { padding-left: 0.75rem; padding-right: 0.75rem; }
+      .item { gap: 0.5rem; }
+      .tag { font-size: 0.72rem; }
+      progress { width: 140px; }
+    }
+
+    @media print {
+      .no-print, .controls { display: none !important; }
+      body { font-size: 12pt; background: white; }
+      .sticky-header { position: static; border: none; }
+      details { break-inside: avoid; box-shadow: none; }
+      .container { width: 100%; margin: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="sticky-header">
+      <h1>Tom 1:1 Cheat Sheet</h1>
+      <p class="subtitle">Recommendation-led discussion tracker</p>
+
+      <div class="panel">
+        <div class="timer-line">
+          <span class="elapsed" id="elapsed">00:00:00</span>
+          <button id="startBtn" class="no-print">Start</button>
+          <button id="pauseBtn" class="no-print">Pause</button>
+          <button id="resetTimerBtn" class="no-print">Reset</button>
+        </div>
+        <div class="progress-wrap">
+          <label for="meetingProgress">30-min progress:</label>
+          <progress id="meetingProgress" max="1800" value="0"></progress>
+          <span id="meetingPercent">0%</span>
+        </div>
+      </div>
+
+      <div class="panel opener">I wanted to use our time on three recommendations: how we scale the US work globally without losing focus, how I should plug into the AI-first redesign work, and the story Joe and I should drive for Charl.</div>
+
+      <div class="panel summary" id="summary"></div>
+
+
+      <div class="panel">
+        <strong>Deployment note:</strong> Host this in a private GitHub repository and publish with GitHub Pages or any static host. Works cross-platform (Windows/macOS/Linux/iOS/Android) as a browser app and installs as a lightweight PWA.
+      </div>
+
+      <div class="controls no-print">
+        <button id="resetChecksBtn">Reset all checks</button>
+        <button id="collapseAllBtn">Collapse all</button>
+        <button id="expandAllBtn">Expand all</button>
+        <button id="exportBtn">Export JSON</button>
+      </div>
+    </header>
+
+    <main id="app"></main>
+  </div>
+
+  <script>
+    const STORAGE_KEY = 'tom-1on1-cheat-sheet-v1';
+
+    const sections = [
+      { title: 'Topic 1: Global scaling with guardrails', items: [
+        ['Strong momentum from Copenhagen / DAIC', 'nice'],
+        ['Global colleagues inspired by US progress', 'nice'],
+        ['Pull from markets is a good sign', 'nice'],
+        ['Recommendation: demo what works', 'must'],
+        ['Recommendation: stand up 1 to 2 lighthouse pilots', 'must'],
+        ['Recommendation: transfer playbook / methodology', 'must'],
+        ['Recommendation: local teams take over', 'must'],
+        ['Recommendation: US steps back', 'must'],
+        ['Key message: US leads, not delivery arm for every market', 'must'],
+        ['Align on guardrails for my time', 'must'],
+        ['Align on message to USLT', 'nice'],
+        ['Position this as extending US leadership, not pulling focus away', 'nice']
+      ]},
+      { title: 'Topic 2: Reimagining vs. reshaping / AI-first role', items: [
+        ['Bigger opportunity is reimagining, not just improving current workflows', 'must'],
+        ['AI-first / blank-sheet design idea', 'must'],
+        ['This appears aligned with Charl / Tom / Markus direction', 'nice'],
+        ['Recommendation: keep me involved beyond current pilots', 'must'],
+        ['Use me as bridge between US proof points and future-state design', 'must'],
+        ['I have ground truth from the US work', 'nice'],
+        ['I can connect today’s pilots to tomorrow’s operating model', 'must'],
+        ['Goal: be intentionally plugged into future-state lane, not adjacent to it', 'must']
+      ]},
+      { title: 'Topic 3: Charl June 2 storyline', items: [
+        ['Recommend a 3-part narrative', 'must'],
+        ['Blueprinting largely complete', 'must'],
+        ['Proof points are real / tangible', 'must'],
+        ['Next unlock is scaling methodology + selected lighthouses', 'must'],
+        ['Not just an activity report', 'must'],
+        ['Show what Charl should take away', 'must'],
+        ['Show proof points / examples', 'must'],
+        ['Show contribution to broader Bionic narrative', 'must'],
+        ['Quick calibration: is this the story Tom wants us to tell?', 'nice'],
+        ['Quick calibration: any gap before saying blueprinting is effectively done?', 'nice'],
+        ['Quick calibration: what is the ask for Charl?', 'nice'],
+        ['Optional angle: value creation metrics as final blueprinting step', 'time'],
+        ['Optional angle: use reimagining vs reshaping as framing, not whole topic', 'time'],
+        ['Optional angle: mention global pull as proof of scalability, not centerpiece', 'time']
+      ]},
+      { title: 'Close / execution risk', items: [
+        ['Joe / Uma / Markus all pulling on role', 'nice'],
+        ['I am comfortable with that', 'nice'],
+        ['Need prioritization clarity', 'must'],
+        ['Want to avoid diffusion / letting leaders down', 'must']
+      ]}
+    ];
+
+    const state = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+    state.checks = state.checks || {};
+    state.notes = state.notes || {};
+    state.timer = state.timer || { elapsed: 0, running: false, lastStart: null };
+
+    const app = document.getElementById('app');
+
+    function saveState() { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+
+    function getItemKey(s, i) { return `${s}-${i}`; }
+
+    function render() {
+      app.innerHTML = '';
+      sections.forEach((section, sIdx) => {
+        const details = document.createElement('details');
+        details.open = state[`open-${sIdx}`] !== false;
+        details.addEventListener('toggle', () => { state[`open-${sIdx}`] = details.open; saveState(); });
+
+        const summary = document.createElement('summary');
+        summary.textContent = section.title;
+        details.appendChild(summary);
+
+        const body = document.createElement('div');
+        body.className = 'section-body';
+
+        const firstMust = section.items.findIndex(([, tag], i) => tag === 'must' && !state.checks[getItemKey(sIdx, i)]);
+        const nextPoint = document.createElement('div');
+        nextPoint.className = 'next-point';
+        nextPoint.textContent = firstMust >= 0 ? `Next best point: ${section.items[firstMust][0]}` : 'Next best point: Must-hit points complete.';
+        body.appendChild(nextPoint);
+
+        section.items.forEach(([text, tag], iIdx) => {
+          const key = getItemKey(sIdx, iIdx);
+          const row = document.createElement('div');
+          row.className = 'item';
+
+          const cb = document.createElement('input');
+          cb.type = 'checkbox';
+          cb.id = `cb-${key}`;
+          cb.checked = !!state.checks[key];
+          cb.addEventListener('change', () => { state.checks[key] = cb.checked; saveState(); renderSummary(); render(); });
+
+          const label = document.createElement('label');
+          label.setAttribute('for', cb.id);
+          label.textContent = text;
+
+          const pill = document.createElement('span');
+          pill.className = `tag ${tag}`;
+          pill.textContent = tag === 'must' ? 'Must hit' : tag === 'nice' ? 'Nice to hit' : 'Only if time';
+
+          row.append(cb, label, pill);
+          body.appendChild(row);
+        });
+
+        const notes = document.createElement('textarea');
+        notes.placeholder = 'Quick notes...';
+        notes.value = state.notes[sIdx] || '';
+        notes.addEventListener('input', () => { state.notes[sIdx] = notes.value; saveState(); });
+        body.appendChild(notes);
+
+        details.appendChild(body);
+        app.appendChild(details);
+      });
+      renderSummary();
+    }
+
+    function renderSummary() {
+      let total = 0, completed = 0, mustTotal = 0, mustDone = 0;
+      sections.forEach((section, sIdx) => {
+        section.items.forEach(([, tag], iIdx) => {
+          total++;
+          const checked = !!state.checks[getItemKey(sIdx, iIdx)];
+          if (checked) completed++;
+          if (tag === 'must') {
+            mustTotal++;
+            if (checked) mustDone++;
+          }
+        });
+      });
+      document.getElementById('summary').innerHTML =
+        `<strong>Total completed: ${completed}/${total}</strong><strong>Must-hit completed: ${mustDone}/${mustTotal}</strong>`;
+    }
+
+    let interval = null;
+    function currentElapsed() {
+      if (!state.timer.running || !state.timer.lastStart) return state.timer.elapsed;
+      return state.timer.elapsed + Math.floor((Date.now() - state.timer.lastStart) / 1000);
+    }
+
+    function updateTimerUI() {
+      const sec = currentElapsed();
+      const hh = String(Math.floor(sec / 3600)).padStart(2, '0');
+      const mm = String(Math.floor((sec % 3600) / 60)).padStart(2, '0');
+      const ss = String(sec % 60).padStart(2, '0');
+      document.getElementById('elapsed').textContent = `${hh}:${mm}:${ss}`;
+      document.getElementById('meetingProgress').value = Math.min(sec, 1800);
+      document.getElementById('meetingPercent').textContent = `${Math.min(100, Math.round((sec / 1800) * 100))}%`;
+    }
+
+    function startTimer() {
+      if (state.timer.running) return;
+      state.timer.running = true;
+      state.timer.lastStart = Date.now();
+      saveState();
+      if (!interval) interval = setInterval(updateTimerUI, 250);
+    }
+
+    function pauseTimer() {
+      if (!state.timer.running) return;
+      state.timer.elapsed = currentElapsed();
+      state.timer.running = false;
+      state.timer.lastStart = null;
+      saveState();
+    }
+
+    function resetTimer() {
+      state.timer = { elapsed: 0, running: false, lastStart: null };
+      saveState();
+      updateTimerUI();
+    }
+
+    document.getElementById('startBtn').addEventListener('click', startTimer);
+    document.getElementById('pauseBtn').addEventListener('click', pauseTimer);
+    document.getElementById('resetTimerBtn').addEventListener('click', resetTimer);
+
+    document.getElementById('resetChecksBtn').addEventListener('click', () => {
+      state.checks = {}; saveState(); render();
+    });
+
+    document.getElementById('collapseAllBtn').addEventListener('click', () => {
+      document.querySelectorAll('details').forEach((d, i) => { d.open = false; state[`open-${i}`] = false; });
+      saveState();
+    });
+
+    document.getElementById('expandAllBtn').addEventListener('click', () => {
+      document.querySelectorAll('details').forEach((d, i) => { d.open = true; state[`open-${i}`] = true; });
+      saveState();
+    });
+
+    document.getElementById('exportBtn').addEventListener('click', () => {
+      const blob = new Blob([JSON.stringify({ exportedAt: new Date().toISOString(), state }, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'tom-1on1-cheat-sheet.json';
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+
+    render();
+    updateTimerUI();
+    if (state.timer.running) interval = setInterval(updateTimerUI, 250);
+
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./sw.js").catch(() => {});
+      });
+    }
+  </script>
+</body>
+</html>
